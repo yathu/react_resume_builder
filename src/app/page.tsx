@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   Link,
+  PDFDownloadLink,
 } from "@react-pdf/renderer";
 import ReactPDF from "@react-pdf/renderer";
 // import { PDFViewer } from '@react-pdf/renderer';
@@ -17,6 +18,7 @@ import githubLogo from "@/assets/githublogo.png";
 
 import dynamic from "next/dynamic";
 import { url } from "inspector";
+import CV from "./cv_view";
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then(({ PDFViewer }) => PDFViewer),
@@ -25,33 +27,31 @@ const PDFViewer = dynamic(
     loading: () => <p>Loading...</p>,
   }
 );
-var arr = [11, 89, 23, 7, 98];
-// Create Document Component
-const MyDocument = () => (
-  <Document title="Yathavan resume">
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.heading1}>First & Last Name</Text>
-        <View style={styles.headerLinks}>
-          {Array.from({ length: 5 }).map((i,index) => (
-            <Link href="https://github.com" style={[styles.headerLinkItem,{marginLeft:`${index == 0 ? 0:10}`}]}>
-              <Image
-                src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
-                style={styles.headerIcon}
-              />
-              <Text>gitHub1</Text>
-            </Link>
-          ))}
-        </View>
-      </View>
-    </Page>
-  </Document>
-);
 
 const MainDoc = () => (
-  <PDFViewer className="w-full h-screen">
-    <MyDocument />
-  </PDFViewer>
+
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
+      <h1>Your CV</h1>
+      
+      {/* Download button */}
+      <div style={{ margin: '20px 0' }}>
+        <PDFDownloadLink document={<CV />} fileName="yathavan_yogarajah_cv.pdf">
+          {({ blob, url, loading, error }) =>
+            loading ? 'Loading document...' : 'Download CV as PDF'
+          }
+        </PDFDownloadLink>
+      </div>
+      
+      {/* PDF Preview */}
+      <PDFViewer width="800" height="600" style={{ border: 'none' }}>
+        <CV />
+      </PDFViewer>
+    </div>
+    
+  // <PDFViewer className="w-full h-screen">
+  //   {/* <MyDocument /> */}
+
+  // </PDFViewer>
 );
 
 // Create styles

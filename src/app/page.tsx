@@ -1,23 +1,9 @@
 "use client";
-import React from "react";
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  Image,
-  Link,
-  PDFDownloadLink,
-} from "@react-pdf/renderer";
-import ReactPDF from "@react-pdf/renderer";
+import { PDFDownloadLink, StyleSheet } from "@react-pdf/renderer";
 // import { PDFViewer } from '@react-pdf/renderer';
-import ReactDOM from "react-dom";
-import gitHub from "@/assets/icons8-github.svg";
-import githubLogo from "@/assets/githublogo.png";
 
 import dynamic from "next/dynamic";
-import { url } from "inspector";
+import { useRef } from "react";
 import CV from "./cv_view";
 
 const PDFViewer = dynamic(
@@ -28,31 +14,35 @@ const PDFViewer = dynamic(
   }
 );
 
-const MainDoc = () => (
+const MainDoc = () => {
+  const element = useRef<any>();
 
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
-      <h1>Your CV</h1>
-      
-      {/* Download button */}
-      <div style={{ margin: '20px 0' }}>
-        <PDFDownloadLink document={<CV />} fileName="yathavan_yogarajah_cv.pdf">
-          {({ blob, url, loading, error }) =>
-            loading ? 'Loading document...' : 'Download CV as PDF'
-          }
-        </PDFDownloadLink>
+  return (
+    <div className="h-screen w-screen grid grid-cols-12 bg-white">
+      <div className="col-span-4 bg-gray-100 flex flex-col justify-between">
+        <div></div>
+        {/* Download button */}
+        <div className="flex justify-center p-4">
+          <PDFDownloadLink className="bg-blue-700 px-4 py-2 rounded w-full text-center" document={<CV />} fileName="NodeCV.pdf">
+            {({ blob, url, loading, error }) =>
+              loading ? "Loading document..." : "Download CV as PDF"
+            }
+          </PDFDownloadLink>
+        </div>
       </div>
-      
-      {/* PDF Preview */}
-      <PDFViewer width="800" height="600" style={{ border: 'none' }}>
-        <CV />
-      </PDFViewer>
+      <div className="col-span-8 bg-gray-400">
+        <PDFViewer
+          innerRef={element}
+          showToolbar={false}
+          width="100%"
+          height="100%"
+          className="">
+          <CV />
+        </PDFViewer>
+      </div>
     </div>
-    
-  // <PDFViewer className="w-full h-screen">
-  //   {/* <MyDocument /> */}
-
-  // </PDFViewer>
-);
+  );
+};
 
 // Create styles
 const styles = StyleSheet.create({
@@ -70,8 +60,8 @@ const styles = StyleSheet.create({
   headerLinks: {
     display: "flex",
     flexDirection: "row",
-    justifyContent:'center',
-    marginTop:5,
+    justifyContent: "center",
+    marginTop: 5,
   },
   headerLinkItem: {
     flexDirection: "row",

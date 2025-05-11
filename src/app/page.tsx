@@ -3,11 +3,12 @@ import { PDFDownloadLink, StyleSheet } from "@react-pdf/renderer";
 // import { PDFViewer } from '@react-pdf/renderer';
 
 import dynamic from "next/dynamic";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import CV from "./cv_view";
 import Navbar from "./components/Navbar";
 import IntroSection from "./landing_page/intro";
 import CVForm from "./forms/form_view";
+import { CVFormData } from "./constant/schema/formSchema";
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then(({ PDFViewer }) => PDFViewer),
@@ -19,36 +20,52 @@ const PDFViewer = dynamic(
 
 const MainDoc = () => {
   const element = useRef<any>();
+  const [cvData, setcvData] = useState<CVFormData>({
+    personalInfo: {
+      name: '',
+      email: '',
+      phone: '',
+      location: ''
+    },
+    skills: '',
+    workExperience: [],
+    projects: [],
+    education: []
+  });
+
+  const handleOnFormUpdate = (data:CVFormData)=>{
+    setcvData(data);
+  }
 
   return (
     <div>
-      <div className="h-svh bg-gray-100">
+      <div className="h-svh">
         <Navbar />
         <IntroSection />
       </div>
-      <div className="h-svh overflow-hidden w-screen grid grid-cols-12 bg-white">
-        <div className="col-span-4 bg-gray-100 flex flex-col justify-between overflow-y-auto">
-          <CVForm />
+      <div className="h-svh overflow-hidden w-screen grid grid-cols-12">
+        <div className="col-span-6 flex flex-col justify-between overflow-y-auto">
+          <CVForm onUpdate={handleOnFormUpdate} />
           {/* Download button */}
-          <div className="flex justify-center p-4">
-            {/* <PDFDownloadLink
+          {/* <div className="flex justify-center p-4">
+            <PDFDownloadLink
               className="bg-teal-500 rounded-md px-4 py-3 w-full text-center"
-              document={<CV />}
+              document={<CV data={cvData} />}
               fileName="NodeCV.pdf">
               {({ blob, url, loading, error }) =>
                 loading ? "Loading document..." : "Download"
               }
-            </PDFDownloadLink> */}
-          </div>
+            </PDFDownloadLink>
+          </div> */}
         </div>
-        <div className="col-span-8 bg-gray-400">
+        <div className="col-span-6">
           <PDFViewer
             innerRef={element}
             showToolbar={false}
             width="100%"
             height="100%"
             className="">
-            <CV />
+            <CV data={cvData} />
           </PDFViewer>
         </div>
       </div>

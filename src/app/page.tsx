@@ -1,22 +1,14 @@
 "use client";
-import React from "react";
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  Image,
-  Link,
-} from "@react-pdf/renderer";
-import ReactPDF from "@react-pdf/renderer";
+import { PDFDownloadLink, StyleSheet } from "@react-pdf/renderer";
 // import { PDFViewer } from '@react-pdf/renderer';
-import ReactDOM from "react-dom";
-import gitHub from "@/assets/icons8-github.svg";
-import githubLogo from "@/assets/githublogo.png";
 
 import dynamic from "next/dynamic";
-import { url } from "inspector";
+import { useRef, useState } from "react";
+import CV from "./cv_view";
+import Navbar from "./components/Navbar";
+import IntroSection from "./landing_page/intro";
+import CVForm from "./forms/form_view";
+import { CVFormData } from "./constant/schema/formSchema";
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then(({ PDFViewer }) => PDFViewer),
@@ -25,34 +17,61 @@ const PDFViewer = dynamic(
     loading: () => <p>Loading...</p>,
   }
 );
-var arr = [11, 89, 23, 7, 98];
-// Create Document Component
-const MyDocument = () => (
-  <Document title="Yathavan resume">
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.heading1}>First & Last Name</Text>
-        <View style={styles.headerLinks}>
-          {Array.from({ length: 5 }).map((i,index) => (
-            <Link href="https://github.com" style={[styles.headerLinkItem,{marginLeft:`${index == 0 ? 0:10}`}]}>
-              <Image
-                src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
-                style={styles.headerIcon}
-              />
-              <Text>gitHub1</Text>
-            </Link>
-          ))}
-        </View>
-      </View>
-    </Page>
-  </Document>
-);
 
-const MainDoc = () => (
-  <PDFViewer className="w-full h-screen">
-    <MyDocument />
-  </PDFViewer>
-);
+const MainDoc = () => {
+  const element = useRef<any>();
+  const [cvData, setcvData] = useState<CVFormData>({
+    personalInfo: {
+      name: '',
+      email: '',
+      phone: '',
+      location: ''
+    },
+    skills: '',
+    workExperience: [],
+    projects: [],
+    education: []
+  });
+
+  const handleOnFormUpdate = (data:CVFormData)=>{
+    setcvData(data);
+  }
+
+  return (
+    <div>
+      <div className="h-svh">
+        <Navbar />
+        <IntroSection />
+      </div>
+      <div className="h-svh overflow-hidden w-screen grid grid-cols-12">
+        <div className="col-span-6 flex flex-col justify-between overflow-y-auto">
+          <CVForm onUpdate={handleOnFormUpdate} />
+          {/* Download button */}
+          {/* <div className="flex justify-center p-4">
+            <PDFDownloadLink
+              className="bg-teal-500 rounded-md px-4 py-3 w-full text-center"
+              document={<CV data={cvData} />}
+              fileName="NodeCV.pdf">
+              {({ blob, url, loading, error }) =>
+                loading ? "Loading document..." : "Download"
+              }
+            </PDFDownloadLink>
+          </div> */}
+        </div>
+        <div className="col-span-6">
+          <PDFViewer
+            innerRef={element}
+            showToolbar={false}
+            width="100%"
+            height="100%"
+            className="">
+            <CV data={cvData} />
+          </PDFViewer>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Create styles
 const styles = StyleSheet.create({
@@ -70,8 +89,8 @@ const styles = StyleSheet.create({
   headerLinks: {
     display: "flex",
     flexDirection: "row",
-    justifyContent:'center',
-    marginTop:5,
+    justifyContent: "center",
+    marginTop: 5,
   },
   headerLinkItem: {
     flexDirection: "row",

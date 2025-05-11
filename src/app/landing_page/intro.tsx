@@ -9,15 +9,15 @@ export default function IntroSection() {
           {/* Left Column - Content */}
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold !leading-tight text-teal-800 mb-6">
-              Stand out 
+              Stand out in seconds
               <br />
               Get hired faster
               {/* <span className="font-medium inline-block mt-4"></span>  */}
             </h1>
-            <p className="text-lg text-gray-600 mb-10">
-              Supports small businesses with simple invoicing,
+            <p className="text-base text-gray-500 mb-10 leading-normal">
+              Create a beautiful, job-winning resume in minutes.
               <br />
-              powerful integrations, and cash flow management tools.
+              Clean design, ATS-optimized, and ready to impress.
             </p>
 
             {/* Email Form with Button Inside */}
@@ -25,14 +25,15 @@ export default function IntroSection() {
               <div className="max-w-[475px] flex items-center bg-white border border-gray-300 p-1 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-teal-500 focus-within:border-transparent">
                 <input
                   type="email"
-                  placeholder="Your email"
+                  placeholder="Get early access"
                   className="flex-grow px-4 py-3 focus:outline-none text-black"
                 />
                 <button className="flex items-center justify-center gap-2 bg-teal-500 rounded-lg text-white px-6 py-3 h-full hover:bg-teal-600 transition-colors">
-                  Get Started
+                  Notify Me
                   <ArrowRight size={18} />
                 </button>
               </div>
+              <div className="text-sm text-gray-400 italic mt-1 ps-4">No spam. We’ll only email you when it matters.</div>
             </div>
 
             {/* Partner Logos */}

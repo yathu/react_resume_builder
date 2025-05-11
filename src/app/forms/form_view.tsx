@@ -1,90 +1,91 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { CVSchema, CVFormData } from "./CVFormTypes";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import { CVFormData, CVSchema } from "../constant/schema/formSchema";
 import { Button, FormField, TextAreaField } from "../components/form_elements";
+import { CircleX } from "lucide-react";
 
 // Button component for better UI
 
-const CVForm = () => {
+interface CVFormProps {
+  onUpdate: (data: CVFormData) => void;
+}
+
+const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState(null);
 
   // Set default values based on the CV data you provided
+
   const defaultValues = {
     personalInfo: {
-      name: "Yathavan YOGARAJAH",
-      email: "yathavancom@gmail.com",
-      phone: "+33758353959",
-      location: "Ivry-sur-Seine, France",
-      github: "https://github.com/yathu",
-      linkedin: "https://www.linkedin.com/in/yathavancom/",
+      name: "Sarah Chen",
+      email: "sarah.chen@techinnovate.com",
+      phone: "+1 (415) 555-0123",
+      location: "San Francisco, CA",
+      github: "https://github.com/sarahchen-dev",
+      linkedin: "https://www.linkedin.com/in/sarahchen-tech/",
     },
     summary:
-      "Digital marketing professionals with the expertise in Front-End development. Demonstrated proficiency in SEO, WordPress, UX design, and content creation.",
+      "Full-stack developer with 5+ years of experience in building scalable web applications. Specialized in React, Node.js, and cloud technologies. Passionate about creating efficient, user-friendly solutions and mentoring junior developers.",
     skills:
-      "SEO, SEM, Google Analytics, Google Search Console, Google Keyword Planner, WordPress, Excel, Python, HTML, SCSS, CSS, JavaScript, Canva, Adobe Photoshop, UX Design, Content creation, Social media analysis, AdobeXD, Figma, Typescript, React JS, Adobe Premiere Pro, Final Cut Pro, Google Sheets, Webflow, Ahrefs, Yoast SEO, Rank Math, Asana, Trello, Notion, Clarity",
+      "React, Node.js, TypeScript, AWS, Docker, Kubernetes, GraphQL, MongoDB, PostgreSQL, Jest, CI/CD, Git, Agile Methodologies, System Design, Microservices Architecture, REST APIs, WebSocket, Redis, Elasticsearch, Terraform",
     workExperience: [
       {
-        title: "Freelance - Lanka Property Web",
-        company:
-          "Sri Lanka's number one and most visited property and real estate website",
-        startDate: "2018",
+        title: "Senior Software Engineer",
+        company: "TechInnovate Solutions",
+        startDate: "2021",
         endDate: "present",
-        description:
-          "Convert UI/UX design into HTML website, Mobile and integrate with backend, email template design",
-        achievements: [],
+        keyNote: "Lead developer for enterprise-level application.",
+        achievements: [
+          "Architected and implemented a microservices-based platform that reduced system response time by 40%",
+          "Led a team of 5 developers in migrating legacy systems to cloud infrastructure",
+          "Implemented CI/CD pipelines that reduced deployment time by 60%",
+        ],
       },
       {
-        title: "Software Developer (Web & Mobile)",
-        company: "",
-        startDate: "2014.01",
-        endDate: "2023.12",
-        description: "",
+        title: "Full Stack Developer",
+        company: "Digital Dynamics",
+        startDate: "2019",
+        endDate: "2021",
+        keyNote: "",
         achievements: [
-          "Translated Sketch and Figma designs into fully functional web applications and websites with SEO optimization.",
-          "Frontend development using React with Typescript.",
-          "Mobile App development (React Native, Flutter, Native Android)",
+          "Developed and maintained multiple React-based web applications serving over 100,000 users",
+          "Optimized database queries resulting in 30% faster page load times",
+          "Implemented automated testing increasing code coverage to 85%",
         ],
       },
     ],
     projects: [
       {
-        title: "Flyers, Brochures, Posters and UX design",
-        link: "https://www.behance.net/yathavan",
+        title: "E-commerce Platform",
+        link: "https://github.com/sarahchen-dev/ecommerce-platform",
         achievements: [
-          "WordPress blog website development and management, including implementation of GA4, Google Search Console, meta tags, and keyword research using Google Keyword Planner.",
-          "Experienced in managing personal YouTube channels, utilizing Final Cut Pro, Adobe Premiere Pro, Adobe After Effects, and Canva for thumbnails.",
+          "Built a full-stack e-commerce platform using React, Node.js, and MongoDB",
+          "Implemented real-time inventory management and payment processing",
+          "Integrated with multiple third-party APIs for shipping and payment processing",
         ],
       },
     ],
     education: [
       {
-        degree: "MSc in Strategic & Digital Marketing",
-        institution: "Rennes School of Business",
-        startDate: "Jan 2023",
-        endDate: "present",
+        degree: "Master of Computer Science",
+        institution: "Stanford University",
+        startDate: "2017",
+        endDate: "2019",
         achievements: [
-          "Developing digital marketing strategies for campaigns involving email, social media, SEO/SEM, and display advertising.",
-          "Analysed Google Analytics data and prepared reports on consumer insights.",
-          "Designed promotional materials such as newsletters, posters, brochures, and flyers.",
-          "Translated specific requirements into wireframes and transformed into the user experience in Figma.",
+          "Specialized in Distributed Systems and Cloud Computing",
+          "Published research paper on scalable microservices architecture",
+          "Graduated with distinction",
         ],
       },
       {
-        degree: "BEng (Hons) in Software Engineering",
-        institution: "London Metropolitan University",
-        startDate: "Feb 2021",
-        endDate: "Jun 2022",
-        achievements: [],
-      },
-      {
-        degree: "HNDIT",
-        institution: "Advanced Technical Institute Jaffna",
-        startDate: "2011",
-        endDate: "2014",
+        degree: "Bachelor of Science in Computer Engineering",
+        institution: "University of California, Berkeley",
+        startDate: "2013",
+        endDate: "2017",
         achievements: [],
       },
     ],
@@ -100,7 +101,7 @@ const CVForm = () => {
   } = useForm<CVFormData>({
     resolver: zodResolver(CVSchema),
     defaultValues,
-    mode: "onChange"
+    mode: "onChange",
   });
 
   // Initialize form with default values
@@ -143,7 +144,7 @@ const CVForm = () => {
   //handle add remove work experience achivements
 
   // Achievement field arrays (nested)
-  const createAchievementFieldArray = (parentPath:string, index:number) => {
+  const createAchievementFieldArray = (parentPath: string, index: number) => {
     return useFieldArray({
       control,
       name: `${parentPath}.${index}.achievements`,
@@ -152,81 +153,82 @@ const CVForm = () => {
 
   const onSubmit = (data: CVFormData) => {
     console.log("Form data:", data);
+    onUpdate(data);
     // setFormData(data);
     // setShowPreview(true);
   };
 
   return (
-    <div className="w-full flex-1 overflow-y-auto text-black max-h-full">
-      <h1 className="text-2xl font-bold mb-6">Create Your CV</h1>
-
+    <div className="w-full flex-1 overflow-y-auto text-black max-h-full p-4 bg-gray-200">
+      {/* bg-[#282828] */}
+      <h1 className="text-xl font-bold mb-6">Create Your CV</h1>
       <form className="space-y-8">
         {/* Personal Information */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               label="Full Name"
               type="text"
-              {...register("personalInfo.name")}
+              register={register("personalInfo.name")}
               error={errors.personalInfo?.name}
             />
 
             <FormField
               label="Email"
               type="email"
-              {...register("personalInfo.email")}
+              register={register("personalInfo.email")}
               error={errors.personalInfo?.email}
             />
             <FormField
               label="Phone"
               type="text"
-              {...register("personalInfo.phone")}
+              register={register("personalInfo.phone")}
               error={errors.personalInfo?.phone}
             />
             <FormField
               label="Location"
               type="text"
-              {...register("personalInfo.location")}
+              register={register("personalInfo.location")}
               error={errors.personalInfo?.location}
             />
             <FormField
               label="GitHub"
               type="url"
-              {...register("personalInfo.github")}
+              register={register("personalInfo.github")}
               error={errors.personalInfo?.github}
             />
             <FormField
               label="LinkedIn"
               type="url"
-              {...register("personalInfo.linkedin")}
+              register={register("personalInfo.linkedin")}
               error={errors.personalInfo?.linkedin}
             />
           </div>
         </div>
 
         {/* Summary */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Summary</h2>
           <TextAreaField
             label="Professional Summary"
-            {...register("summary")}
+            register={register("summary")}
             error={errors.summary}
           />
         </div>
 
         {/* Skills */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Skills</h2>
           <TextAreaField
             label="Skills (comma separated)"
-            {...register("skills")}
+            register={register("skills")}
             error={errors.skills}
           />
         </div>
 
         {/* Work Experience */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Work Experience</h2>
 
           {workFields.map((field, workIndex) => {
@@ -254,30 +256,32 @@ const CVForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     label="Job Title"
-                    {...register(`workExperience.${workIndex}.title`)}
+                    register={register(`workExperience.${workIndex}.title`)}
                     error={errors.workExperience?.[workIndex]?.title}
                   />
                   <FormField
                     label="Company"
-                    {...register(`workExperience.${workIndex}.company`)}
+                    register={register(`workExperience.${workIndex}.company`)}
                     error={errors.workExperience?.[workIndex]?.company}
                   />
                   <FormField
                     label="Start Date"
-                    {...register(`workExperience.${workIndex}.startDate`)}
+                    register={register(`workExperience.${workIndex}.startDate`)}
                     error={errors.workExperience?.[workIndex]?.startDate}
                   />
                   <FormField
                     label="End Date (or 'present')"
-                    {...register(`workExperience.${workIndex}.endDate`)}
+                    register={register(`workExperience.${workIndex}.endDate`)}
                     error={errors.workExperience?.[workIndex]?.endDate}
                   />
                 </div>
 
                 <TextAreaField
-                  label="Job Description"
-                  {...register(`workExperience.${workIndex}.description`)}
-                  error={errors.workExperience?.[workIndex]?.description}
+                  label="Key Note"
+                  register={register(`workExperience.${workIndex}.keyNote`)}
+                  placeholder="Optional: Highlight anything special"
+                  error={errors.workExperience?.[workIndex]?.keyNote}
+                  rows={1}
                 />
 
                 <div className="mt-4">
@@ -286,12 +290,12 @@ const CVForm = () => {
                   </h4>
 
                   {field?.achievements?.map((fieldItem, achiveIndex) => (
-                    <div key={achiveIndex} className="flex items-start mb-2">
-                      <input
-                        type="text"
+                    <div key={achiveIndex} className="flex items-center mb-2">
+                      <TextAreaField
+                        rows={1}
                         className="w-full px-3 py-2 border border-gray-300 rounded"
                         value={fieldItem}
-                        {...register(
+                        register={register(
                           `workExperience.${workIndex}.achievements.${achiveIndex}`
                         )}
                       />
@@ -317,8 +321,8 @@ const CVForm = () => {
 
                           // achievementsArray.remove(index);
                         }}
-                        className="ml-2 text-red-500 hover:text-red-700">
-                        ✕
+                        className="ml-2 text-red-300 hover:text-red-500">
+                        <CircleX size={18} />
                       </button>
                     </div>
                   ))}
@@ -340,8 +344,8 @@ const CVForm = () => {
                           onClick={() =>
                             achievementsArray.remove(achievementIndex)
                           }
-                          className="ml-2 text-red-500 hover:text-red-700">
-                          ✕
+                          className="ml-2 text-red-300 hover:text-red-500">
+                          <CircleX size={18} />
                         </button>
                       </div>
                     )
@@ -385,7 +389,7 @@ const CVForm = () => {
                   company: "",
                   startDate: "",
                   endDate: "",
-                  description: "",
+                  keyNote: "",
                   achievements: [],
                 })
               }>
@@ -395,7 +399,7 @@ const CVForm = () => {
         </div>
 
         {/* Projects */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Projects</h2>
 
           {projectFields.map((field, index) => {
@@ -421,12 +425,12 @@ const CVForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     label="Project Title"
-                    {...register(`projects.${index}.title`)}
+                    register={register(`projects.${index}.title`)}
                     error={errors.projects?.[index]?.title}
                   />
                   <FormField
                     label="Link (optional)"
-                    {...register(`projects.${index}.link`)}
+                    register={register(`projects.${index}.link`)}
                     error={errors.projects?.[index]?.link}
                   />
                 </div>
@@ -438,7 +442,7 @@ const CVForm = () => {
                     (achievementField, achievementIndex) => (
                       <div
                         key={achievementField.id}
-                        className="flex items-start mb-2">
+                        className="flex items-center mb-2">
                         <input
                           type="text"
                           className="w-full px-3 py-2 border border-gray-300 rounded"
@@ -451,8 +455,8 @@ const CVForm = () => {
                           onClick={() =>
                             achievementsArray.remove(achievementIndex)
                           }
-                          className="ml-2 text-red-500 hover:text-red-700">
-                          ✕
+                          className="ml-2 text-red-300 hover:text-red-500">
+                          <CircleX size={18} />
                         </button>
                       </div>
                     )
@@ -485,7 +489,7 @@ const CVForm = () => {
         </div>
 
         {/* Education */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Education</h2>
 
           {educationFields.map((field, index) => {
@@ -513,22 +517,22 @@ const CVForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     label="Degree/Certificate"
-                    {...register(`education.${index}.degree`)}
+                    register={register(`education.${index}.degree`)}
                     error={errors.education?.[index]?.degree}
                   />
                   <FormField
                     label="Institution"
-                    {...register(`education.${index}.institution`)}
+                    register={register(`education.${index}.institution`)}
                     error={errors.education?.[index]?.institution}
                   />
                   <FormField
                     label="Start Date"
-                    {...register(`education.${index}.startDate`)}
+                    register={register(`education.${index}.startDate`)}
                     error={errors.education?.[index]?.startDate}
                   />
                   <FormField
                     label="End Date (or 'present')"
-                    {...register(`education.${index}.endDate`)}
+                    register={register(`education.${index}.endDate`)}
                     error={errors.education?.[index]?.endDate}
                   />
                 </div>
@@ -540,7 +544,7 @@ const CVForm = () => {
                     (achievementField, achievementIndex) => (
                       <div
                         key={achievementField.id}
-                        className="flex items-start mb-2">
+                        className="flex items-center mb-2">
                         <input
                           type="text"
                           className="w-full px-3 py-2 border border-gray-300 rounded"
@@ -553,8 +557,8 @@ const CVForm = () => {
                           onClick={() =>
                             achievementsArray.remove(achievementIndex)
                           }
-                          className="ml-2 text-red-500 hover:text-red-700">
-                          ✕
+                          className="ml-2 text-red-300 hover:text-red-500">
+                          <CircleX size={18} />
                         </button>
                       </div>
                     )

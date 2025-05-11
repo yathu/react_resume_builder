@@ -16,7 +16,7 @@ export const WorkExperienceSchema = z.object({
   company: z.string().min(1, "Company is required"),
   startDate: z.string().min(1, "Start date is required"),
   endDate: z.string().optional(),
-  description: z.string().optional(),
+  keyNote: z.string().optional(),
   achievements: z.array(z.string()).optional(),
 });
 

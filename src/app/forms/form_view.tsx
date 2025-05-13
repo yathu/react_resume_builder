@@ -6,6 +6,7 @@ import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import { CVFormData, CVSchema } from "../constant/schema/formSchema";
 import { Button, FormField, TextAreaField } from "../components/form_elements";
 import { CircleX } from "lucide-react";
+import CV from "../cv_view";
 
 // Button component for better UI
 
@@ -13,7 +14,7 @@ interface CVFormProps {
   onUpdate: (data: CVFormData) => void;
 }
 
-const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
+const CVForm: FC<CVFormProps> = ({ onUpdate, onGenerate }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState(null);
 
@@ -144,7 +145,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   //handle add remove work experience achivements
 
   // Achievement field arrays (nested)
-  const createAchievementFieldArray = (parentPath: string, index: number) => {
+  const CreateAchievementFieldArray = (parentPath: string, index: number) => {
     return useFieldArray({
       control,
       name: `${parentPath}.${index}.achievements`,
@@ -159,9 +160,9 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   };
 
   return (
-    <div className="w-full flex-1 overflow-y-auto text-black max-h-full p-4 bg-gray-200">
+    <div className="w-full flex-1 overflow-y-auto text-black max-h-full p-4 bg-gray-600">
       {/* bg-[#282828] */}
-      <h1 className="text-xl font-bold mb-6">Create Your CV</h1>
+      <h1 className="text-xl font-bold mb-4 mt-2 text-white">Create Your CV</h1>
       <form className="space-y-8">
         {/* Personal Information */}
         <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -403,7 +404,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
           <h2 className="text-xl font-semibold mb-4">Projects</h2>
 
           {projectFields.map((field, index) => {
-            const achievementsArray = createAchievementFieldArray(
+            const achievementsArray = CreateAchievementFieldArray(
               "projects",
               index
             );
@@ -493,7 +494,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
           <h2 className="text-xl font-semibold mb-4">Education</h2>
 
           {educationFields.map((field, index) => {
-            const achievementsArray = createAchievementFieldArray(
+            const achievementsArray = CreateAchievementFieldArray(
               "education",
               index
             );
@@ -593,10 +594,20 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-center">
-          <Button type="button" onClick={handleSubmit(onSubmit)}>
-            Generate CV
+        <div className="flex justify-end bg-white gap-2 p-2 rounded-lg">
+          <Button className="px-8" type="button" onClick={handleSubmit(onSubmit)}>
+            Preview
           </Button>
+
+          <PDFDownloadLink
+            className="bg-teal-600 rounded-lg text-white px-6 py-2.5 text-center flex-1"
+            document={<CV data={getValues()} />}
+            fileName="NodeCV.pdf">
+            {({ blob, url, loading, error }) =>
+              loading ? "Loading document..." : "Download"
+            }
+          </PDFDownloadLink>
+          
         </div>
       </form>
     </div>

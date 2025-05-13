@@ -14,7 +14,7 @@ interface CVFormProps {
   onUpdate: (data: CVFormData) => void;
 }
 
-const CVForm: FC<CVFormProps> = ({ onUpdate, onGenerate }) => {
+const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState(null);
 

@@ -1,4 +1,5 @@
-import React, { FC, useState } from "react";
+'use client'
+import React, { FC, useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { CVSchema, CVFormData } from "./CVFormTypes";
@@ -17,6 +18,12 @@ interface CVFormProps {
 const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState(null);
+
+   const [isClient, setIsClient] = useState(false);
+
+   useEffect(() => {
+     setIsClient(true);
+   }, []);
 
   // Set default values based on the CV data you provided
 
@@ -148,7 +155,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   const CreateAchievementFieldArray = (parentPath: string, index: number) => {
     return useFieldArray({
       control,
-      name: `${parentPath}.${index}.achievements`,
+      name: `${parentPath}.${index}.achievements` as any,
     });
   };
 
@@ -599,14 +606,14 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
             Preview
           </Button>
 
-          <PDFDownloadLink
+          { isClient &&  <PDFDownloadLink
             className="bg-teal-600 rounded-lg text-white px-6 py-2.5 text-center flex-1"
             document={<CV data={getValues()} />}
             fileName="NodeCV.pdf">
             {({ blob, url, loading, error }) =>
               loading ? "Loading document..." : "Download"
             }
-          </PDFDownloadLink>
+          </PDFDownloadLink>}
           
         </div>
       </form>

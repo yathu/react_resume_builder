@@ -20,8 +20,13 @@ export default function IntroSection() {
               Clean design, ATS-optimized, and ready to impress.
             </p>
 
+            <a href="#builderSection" className="w-fit flex group items-center justify-center gap-2 bg-teal-500 rounded-full text-white px-8 py-4 h-full hover:bg-teal-600 transition-colors">
+              Build My Resume
+              <ArrowRight className="transition duration-500 group-hover:translate-x-3" size={18} />
+            </a>
+
             {/* Email Form with Button Inside */}
-            <div className="mb-16">
+            <div className="mb-16 hidden">
               <div className="max-w-[475px] flex items-center bg-white border border-gray-300 p-1 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-teal-500 focus-within:border-transparent">
                 <input
                   type="email"
@@ -33,11 +38,13 @@ export default function IntroSection() {
                   <ArrowRight size={18} />
                 </button>
               </div>
-              <div className="text-sm text-gray-400 italic mt-1 ps-4">No spam. We’ll only email you when it matters.</div>
+              <div className="text-sm text-gray-400 italic mt-1 ps-4">
+                No spam. We’ll only email you when it matters.
+              </div>
             </div>
 
             {/* Partner Logos */}
-            <div className="flex flex-wrap items-center gap-6">
+            <div className="flex flex-wrap items-center gap-6 hidden">
               <Image
                 src="/img/sample_logo.png"
                 alt="Partner Logo 1"
@@ -70,7 +77,7 @@ export default function IntroSection() {
                 alt="Resume Template"
                 width={800}
                 height={1000}
-                className="h-full w-auto"
+                className="h-full transition-all duration-500 w-auto hover:rotate-3"
               />
             </div>
           </div>

@@ -10,9 +10,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({ children, ...props }) => (
+export const Button: React.FC<ButtonProps> = ({ children, className, ...props }) => (
   <button
-    className="px-4 py-2 text-white bg-teal-500 rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
+    className={`px-4 py-2 text-white bg-teal-600 rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600 ${className}`}
     {...props}>
     {children}
   </button>

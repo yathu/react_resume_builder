@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import IntroSection from "./landing_page/intro";
 import CVForm from "./forms/form_view";
 import { CVFormData } from "./constant/schema/formSchema";
+import { Button } from "./components/form_elements";
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then(({ PDFViewer }) => PDFViewer),
@@ -22,20 +23,20 @@ const MainDoc = () => {
   const element = useRef<any>();
   const [cvData, setcvData] = useState<CVFormData>({
     personalInfo: {
-      name: '',
-      email: '',
-      phone: '',
-      location: ''
+      name: "",
+      email: "",
+      phone: "",
+      location: "",
     },
-    skills: '',
+    skills: "",
     workExperience: [],
     projects: [],
-    education: []
+    education: [],
   });
 
-  const handleOnFormUpdate = (data:CVFormData)=>{
+  const handleOnFormUpdate = (data: CVFormData) => {
     setcvData(data);
-  }
+  };
 
   return (
     <div>
@@ -43,11 +44,13 @@ const MainDoc = () => {
         <Navbar />
         <IntroSection />
       </div>
-      <div className="h-svh overflow-hidden w-screen grid grid-cols-12">
+      <div
+        id="builderSection"
+        className="h-svh overflow-hidden w-screen grid grid-cols-12">
         <div className="col-span-6 flex flex-col justify-between overflow-y-auto">
           <CVForm onUpdate={handleOnFormUpdate} />
           {/* Download button */}
-          {/* <div className="flex justify-center p-4">
+          {/* <div className="flex justify-center p-4 gap-4">
             <PDFDownloadLink
               className="bg-teal-500 rounded-md px-4 py-3 w-full text-center"
               document={<CV data={cvData} />}

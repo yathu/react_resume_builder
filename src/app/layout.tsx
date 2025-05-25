@@ -17,6 +17,56 @@ export default function RootLayout({
 }>) {
   return (
     <html className="scroll-smooth" lang="en">
+      <head>
+        <meta
+          name="title"
+          content="Build a Smart, Minimal Resume in Seconds | Minima CV"
+        />
+        <meta
+          name="keywords"
+          content="resume builder, minimal resume, developer CV, JSON to resume, fast CV generator, IT resume tool, one-click CV, AI-ready resume, clean CV template"
+        />
+        <meta
+          name="description"
+          content="Create a professional, clean resume in no time. Paste AI-generated JSON or build manually — perfect for developers and IT professionals. Try Minima CV."
+        />
+
+        <meta
+          property="og:title"
+          content="Build a Clean, Professional Resume in Seconds"
+        />
+        <meta
+          property="og:description"
+          content="Instantly generate your resume using JSON or build manually. Ideal for developers and tech professionals."
+        />
+        {/* <meta property="og:image" content="https://yourdomain.com/preview-image.png" /> */}
+        {/* <meta property="og:url" content="https://yourdomain.com" /> */}
+        <meta property="og:type" content="website" />
+
+        {/* twitter */}
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Minima CV – Developer-Friendly Resume Builder"
+        />
+        <meta
+          name="twitter:description"
+          content="Build your resume instantly with JSON or clean templates. Save time and impress hiring managers."
+        />
+        <meta
+          name="twitter:image"
+          content="https://yourdomain.com/twitter-image.png"
+        />
+
+         {/* Canonical Link */}
+        {/* <link rel="canonical" href="https://yourdomain.com/" /> */}
+
+
+        <title>
+          {/* Minima CV –  */}
+          Build a Professional, Minimal Resume Instantly</title>
+      </head>
       <body className={`${inter.className} bg-white`}>
         <Suspense>{children}</Suspense>
       </body>

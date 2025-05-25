@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import { CVFormData, CVSchema } from "../constant/schema/formSchema";
 import { Button, FormField, TextAreaField } from "../components/form_elements";
-import { CircleX } from "lucide-react";
+import { CircleX, Download, Eye } from "lucide-react";
 import CV from "../cv_view";
 
 // Button component for better UI
@@ -601,19 +601,27 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end bg-white gap-2 p-2 rounded-lg">
-          <Button className="px-8" type="button" onClick={handleSubmit(onSubmit)}>
-            Preview
+        <div className="flex justify-end items-center bg-white gap-2 p-2 rounded-lg">
+          <Button className="lg:px-8" type="button" onClick={handleSubmit(onSubmit)}>
+            <Eye />
+            <span className="hidden lg-inline-block">Preview</span>
           </Button>
 
           { isClient &&  <PDFDownloadLink
-            className="bg-teal-600 rounded-lg text-white px-6 py-2.5 text-center flex-1"
+            className="bg-teal-600 rounded-lg text-white lg:px-6 py-2.5 text-center flex-1"
             document={<CV data={getValues()} />}
             fileName="NodeCV.pdf">
             {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : "Download"
+              loading ? "Loading document..." : <div className="flex justify-center">
+                <Download />
+                <span className="hidden lg:inline-block">Download</span>
+              </div>
             }
           </PDFDownloadLink>}
+
+          <a href="https://www.buymeacoffee.com/yathavancow" target="_blank">
+          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" className="w-auto h-[44px] min-w-[157px]" />
+          </a>
           
         </div>
       </form>

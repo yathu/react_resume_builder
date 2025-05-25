@@ -40,14 +40,14 @@ const MainDoc = () => {
 
   return (
     <div>
-      <div className="h-svh">
+      <div className="h-svh overflow-hidden flex flex-col">
         <Navbar />
         <IntroSection />
       </div>
       <div
         id="builderSection"
-        className="h-svh overflow-hidden w-screen grid grid-cols-12">
-        <div className="col-span-6 flex flex-col justify-between overflow-y-auto">
+        className="lg:h-svh overflow-hidden w-screen grid grid-cols-12">
+        <div className="col-span-12 lg:col-span-6 flex flex-col justify-between overflow-y-auto">
           <CVForm onUpdate={handleOnFormUpdate} />
           {/* Download button */}
           {/* <div className="flex justify-center p-4 gap-4">
@@ -61,7 +61,7 @@ const MainDoc = () => {
             </PDFDownloadLink>
           </div> */}
         </div>
-        <div className="col-span-6">
+        <div className="col-span-12 lg:col-span-6 min-h-svh">
           <PDFViewer
             innerRef={element}
             showToolbar={false}

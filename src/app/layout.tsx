@@ -72,6 +72,7 @@ export default function RootLayout({
         <Suspense>{children}</Suspense>
 
         <GoogleAnalytics gaId="G-F1TTSJ2FR4" />
+        {/* <GoogleTagManager gtmId="GTM-PPB6PLST" /> */}
       </body>
     </html>
   );

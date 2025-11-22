@@ -8,6 +8,7 @@ import { CVFormData, CVSchema } from "../constant/schema/formSchema";
 import { Button, FormField, TextAreaField } from "../components/form_elements";
 import { CircleX, Download, Eye } from "lucide-react";
 import CV from "../cv_view";
+import { sendGAEvent, sendGTMEvent } from "@next/third-parties/google";
 
 // Button component for better UI
 
@@ -165,6 +166,15 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
     // setFormData(data);
     // setShowPreview(true);
   };
+
+  const handlePreview = ()=>{
+    handleSubmit(onSubmit);
+    sendGAEvent({ 
+      event: 'preview_clicked',      // The name that shows up in GA4
+      event_category: 'engagement',  // Optional: helps categorize reports
+      event_label: 'CV_preview'  // Optional: specific button identifier
+    });
+  }
 
   return (
     <div className="w-full flex-1 overflow-y-auto text-black max-h-full p-4 bg-gray-600">
@@ -602,7 +612,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
 
         {/* Submit Button */}
         <div className="flex justify-end items-center bg-white gap-2 p-2 rounded-lg">
-          <Button className="lg:px-8 flex items-center" type="button" onClick={handleSubmit(onSubmit)}>
+          <Button className="lg:px-8 flex items-center" type="button" onClick={handlePreview}>
             <Eye />
             <span className="hidden lg:inline-block lg:ms-2">Preview</span>
           </Button>

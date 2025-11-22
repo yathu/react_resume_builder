@@ -168,7 +168,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   };
 
   const handlePreview = ()=>{
-    handleSubmit(onSubmit);
+    handleSubmit(onSubmit)();
     sendGAEvent({ 
       event: 'preview_clicked',      // The name that shows up in GA4
       event_category: 'engagement',  // Optional: helps categorize reports

@@ -3,17 +3,17 @@ import { ArrowRight } from "lucide-react";
 
 export default function IntroSection() {
   return (
-    <div className="flex-1 bg-teal-50 overflow-hidden">
+    <div className="flex-1 bg-teal-900 overflow-hidden">
       <div className="container mx-auto px-4 h-full overflow-hidden flex flex-col lg:flex-row items-center lg:justify-between">
         {/* Left Column - Content */}
         <div className="w-full md:w-6/12 pt-6 lg:py-0 flex flex-col text-center lg:text-start items-center lg:items-start">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold !leading-tight text-teal-800 mb-4 lg:mb-6">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold !leading-tight text-teal-50 mb-4 lg:mb-6">
             Stand out in seconds
             <br />
             Get hired faster
             {/* <span className="font-medium inline-block mt-4"></span>  */}
           </h1>
-          <p className="text-sm lg:text-base text-gray-500 mb-8 lg:mb-10 leading-normal">
+          <p className="text-sm lg:text-base text-gray-200 mb-8 lg:mb-10 leading-normal">
             Create a beautiful, job-winning resume in minutes.
             <br />
             Clean design, ATS-optimized, and ready to impress.
@@ -21,7 +21,7 @@ export default function IntroSection() {
 
           <a
             href="#builderSection"
-            className="w-fit flex group items-center justify-center gap-2 bg-teal-500 rounded-full text-white px-8 py-4 hover:bg-teal-600 transition-colors">
+            className="w-fit flex group items-center justify-center gap-2 bg-teal-300 rounded-full text-gray-600 hover:text-white px-8 py-4 hover:bg-teal-600 transition-colors ">
             Build My Resume
             <ArrowRight
               className="transition duration-500 group-hover:translate-x-3"
@@ -66,7 +66,7 @@ export default function IntroSection() {
         <div className="w-full md:w-5/12 overflow-hidden flex justify-center lg:justify-end items-center lg:h-full py-4 pt-10 lg:py-20">
           <img
             src="/img/CV_sample_full.png"
-            className="h-auto w-full max-h-full max-w-full rounded-lg"
+            className="h-auto w-auto max-h-full max-w-full rounded-lg"
             alt="CV image"
           />
         </div>

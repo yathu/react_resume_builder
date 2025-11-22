@@ -602,9 +602,9 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
 
         {/* Submit Button */}
         <div className="flex justify-end items-center bg-white gap-2 p-2 rounded-lg">
-          <Button className="lg:px-8" type="button" onClick={handleSubmit(onSubmit)}>
+          <Button className="lg:px-8 flex items-center" type="button" onClick={handleSubmit(onSubmit)}>
             <Eye />
-            <span className="hidden lg-inline-block">Preview</span>
+            <span className="hidden lg:inline-block lg:ms-2">Preview</span>
           </Button>
 
           { isClient &&  <PDFDownloadLink
@@ -612,9 +612,9 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
             document={<CV data={getValues()} />}
             fileName="NodeCV.pdf">
             {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : <div className="flex justify-center">
+              loading ? "Loading document..." : <div className="flex justify-center items-center">
                 <Download />
-                <span className="hidden lg:inline-block">Download</span>
+                <span className="hidden lg:inline-block lg:ms-2">Download</span>
               </div>
             }
           </PDFDownloadLink>}

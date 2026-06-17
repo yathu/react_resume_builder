@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { FC, useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,11 +20,11 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState(null);
 
-   const [isClient, setIsClient] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-   useEffect(() => {
-     setIsClient(true);
-   }, []);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Set default values based on the CV data you provided
 
@@ -167,14 +167,14 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
     // setShowPreview(true);
   };
 
-  const handlePreview = ()=>{
+  const handlePreview = () => {
     handleSubmit(onSubmit)();
-    sendGAEvent({ 
-      event: 'preview_clicked',      // The name that shows up in GA4
-      event_category: 'engagement',  // Optional: helps categorize reports
-      event_label: 'CV_preview'  // Optional: specific button identifier
-    });
-  }
+    sendGTMEvent({ event: "CV Preview", value: "PPB6PLST" });
+  };
+
+  const handleDownload = () => {
+    sendGTMEvent({ event: "CV Preview", value: "PPB6PLST" });
+  };
 
   return (
     <div className="w-full flex-1 overflow-y-auto text-black max-h-full p-4 bg-gray-600">
@@ -258,7 +258,8 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
             return (
               <div
                 key={field.id}
-                className="mb-8 p-4 border border-gray-200 rounded">
+                className="mb-8 p-4 border border-gray-200 rounded"
+              >
                 <div className="flex justify-between mb-4">
                   <h3 className="text-lg font-medium">
                     Experience #{workIndex + 1}
@@ -266,7 +267,8 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                   <button
                     type="button"
                     onClick={() => removeWork(workIndex)}
-                    className="text-red-500 hover:text-red-700">
+                    className="text-red-500 hover:text-red-700"
+                  >
                     Remove
                   </button>
                 </div>
@@ -314,7 +316,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                         className="w-full px-3 py-2 border border-gray-300 rounded"
                         value={fieldItem}
                         register={register(
-                          `workExperience.${workIndex}.achievements.${achiveIndex}`
+                          `workExperience.${workIndex}.achievements.${achiveIndex}`,
                         )}
                       />
                       <button
@@ -326,20 +328,21 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                                 const newI = {
                                   ...item,
                                   achievements: item?.achievements?.filter(
-                                    (val, i) => i !== achiveIndex
+                                    (val, i) => i !== achiveIndex,
                                   ),
                                 };
                                 return newI;
                               }
                               return item;
-                            }
+                            },
                           );
 
                           setValue("workExperience", newVal);
 
                           // achievementsArray.remove(index);
                         }}
-                        className="ml-2 text-red-300 hover:text-red-500">
+                        className="ml-2 text-red-300 hover:text-red-500"
+                      >
                         <CircleX size={18} />
                       </button>
                     </div>
@@ -382,7 +385,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                             return newI;
                           }
                           return item;
-                        }
+                        },
                       );
 
                       console.log("newVal==>", newVal);
@@ -390,7 +393,8 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                       setValue("workExperience", newVal);
                     }}
                     // onClick={() => {}}
-                    className="mt-2 text-blue-500 hover:text-blue-700">
+                    className="mt-2 text-blue-500 hover:text-blue-700"
+                  >
                     + Add Achievement
                   </button>
                 </div>
@@ -410,7 +414,8 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                   keyNote: "",
                   achievements: [],
                 })
-              }>
+              }
+            >
               + Add Work Experience
             </Button>
           </div>
@@ -423,19 +428,21 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
           {projectFields.map((field, index) => {
             const achievementsArray = CreateAchievementFieldArray(
               "projects",
-              index
+              index,
             );
 
             return (
               <div
                 key={field.id}
-                className="mb-8 p-4 border border-gray-200 rounded">
+                className="mb-8 p-4 border border-gray-200 rounded"
+              >
                 <div className="flex justify-between mb-4">
                   <h3 className="text-lg font-medium">Project #{index + 1}</h3>
                   <button
                     type="button"
                     onClick={() => removeProject(index)}
-                    className="text-red-500 hover:text-red-700">
+                    className="text-red-500 hover:text-red-700"
+                  >
                     Remove
                   </button>
                 </div>
@@ -460,12 +467,13 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                     (achievementField, achievementIndex) => (
                       <div
                         key={achievementField.id}
-                        className="flex items-center mb-2">
+                        className="flex items-center mb-2"
+                      >
                         <input
                           type="text"
                           className="w-full px-3 py-2 border border-gray-300 rounded"
                           {...register(
-                            `projects.${index}.achievements.${achievementIndex}`
+                            `projects.${index}.achievements.${achievementIndex}`,
                           )}
                         />
                         <button
@@ -473,17 +481,19 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                           onClick={() =>
                             achievementsArray.remove(achievementIndex)
                           }
-                          className="ml-2 text-red-300 hover:text-red-500">
+                          className="ml-2 text-red-300 hover:text-red-500"
+                        >
                           <CircleX size={18} />
                         </button>
                       </div>
-                    )
+                    ),
                   )}
 
                   <button
                     type="button"
                     onClick={() => achievementsArray.append("")}
-                    className="mt-2 text-blue-500 hover:text-blue-700">
+                    className="mt-2 text-blue-500 hover:text-blue-700"
+                  >
                     + Add Detail
                   </button>
                 </div>
@@ -500,7 +510,8 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                   link: "",
                   achievements: [],
                 })
-              }>
+              }
+            >
               + Add Project
             </Button>
           </div>
@@ -513,13 +524,14 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
           {educationFields.map((field, index) => {
             const achievementsArray = CreateAchievementFieldArray(
               "education",
-              index
+              index,
             );
 
             return (
               <div
                 key={field.id}
-                className="mb-8 p-4 border border-gray-200 rounded">
+                className="mb-8 p-4 border border-gray-200 rounded"
+              >
                 <div className="flex justify-between mb-4">
                   <h3 className="text-lg font-medium">
                     Education #{index + 1}
@@ -527,7 +539,8 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                   <button
                     type="button"
                     onClick={() => removeEducation(index)}
-                    className="text-red-500 hover:text-red-700">
+                    className="text-red-500 hover:text-red-700"
+                  >
                     Remove
                   </button>
                 </div>
@@ -562,12 +575,13 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                     (achievementField, achievementIndex) => (
                       <div
                         key={achievementField.id}
-                        className="flex items-center mb-2">
+                        className="flex items-center mb-2"
+                      >
                         <input
                           type="text"
                           className="w-full px-3 py-2 border border-gray-300 rounded"
                           {...register(
-                            `education.${index}.achievements.${achievementIndex}`
+                            `education.${index}.achievements.${achievementIndex}`,
                           )}
                         />
                         <button
@@ -575,17 +589,19 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                           onClick={() =>
                             achievementsArray.remove(achievementIndex)
                           }
-                          className="ml-2 text-red-300 hover:text-red-500">
+                          className="ml-2 text-red-300 hover:text-red-500"
+                        >
                           <CircleX size={18} />
                         </button>
                       </div>
-                    )
+                    ),
                   )}
 
                   <button
                     type="button"
                     onClick={() => achievementsArray.append("")}
-                    className="mt-2 text-blue-500 hover:text-blue-700">
+                    className="mt-2 text-blue-500 hover:text-blue-700"
+                  >
                     + Add Achievement
                   </button>
                 </div>
@@ -604,7 +620,8 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
                   endDate: "",
                   achievements: [],
                 })
-              }>
+              }
+            >
               + Add Education
             </Button>
           </div>
@@ -612,27 +629,44 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
 
         {/* Submit Button */}
         <div className="flex justify-end items-center bg-white gap-2 p-2 rounded-lg">
-          <Button className="lg:px-8 flex items-center" type="button" onClick={handlePreview}>
+          <Button
+            className="lg:px-8 flex items-center"
+            type="button"
+            onClick={handlePreview}
+          >
             <Eye />
             <span className="hidden lg:inline-block lg:ms-2">Preview</span>
           </Button>
 
-          { isClient &&  <PDFDownloadLink
-            className="bg-teal-600 rounded-lg text-white lg:px-6 py-2.5 text-center flex-1"
-            document={<CV data={getValues()} />}
-            fileName="NodeCV.pdf">
-            {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : <div className="flex justify-center items-center">
-                <Download />
-                <span className="hidden lg:inline-block lg:ms-2">Download</span>
-              </div>
-            }
-          </PDFDownloadLink>}
+          {isClient && (
+            <PDFDownloadLink
+              className="bg-teal-600 rounded-lg text-white lg:px-6 py-2.5 text-center flex-1"
+              document={<CV data={getValues()} />}
+              fileName="NodeCV.pdf"
+              onClick={handleDownload}
+            >
+              {({ blob, url, loading, error }) =>
+                loading ? (
+                  "Loading document..."
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <Download />
+                    <span className="hidden lg:inline-block lg:ms-2">
+                      Download
+                    </span>
+                  </div>
+                )
+              }
+            </PDFDownloadLink>
+          )}
 
           <a href="https://www.buymeacoffee.com/yathavancow" target="_blank">
-          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" className="w-auto h-[44px] min-w-[157px]" />
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+              alt="Buy Me A Coffee"
+              className="w-auto h-[44px] min-w-[157px]"
+            />
           </a>
-          
         </div>
       </form>
     </div>

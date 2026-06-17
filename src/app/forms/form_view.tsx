@@ -173,7 +173,7 @@ const CVForm: FC<CVFormProps> = ({ onUpdate }) => {
   };
 
   const handleDownload = () => {
-    sendGTMEvent({ event: "CV Preview", value: "PPB6PLST" });
+    sendGTMEvent({ event: "CV Download", value: "PPB6PLST" });
   };
 
   return (
